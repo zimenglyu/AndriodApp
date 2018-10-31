@@ -2,11 +2,13 @@
 #include <string>
 #include <Eigen>
 #include <chrono>
+#include <dlib/array.h>
+
+
 #include "includes/matrixtest.h"
 
+
 extern "C" JNIEXPORT jstring JNICALL
-
-
 
 Java_com_example_zimeng_myapplication_MainActivity_stringFromJNI(
         JNIEnv* env,
@@ -24,10 +26,13 @@ Java_com_example_zimeng_myapplication_MainActivity_stringFromJNI(
 //    auto duration=std::chrono::duration_cast<std::chrono::milliseconds>(stop-start);
 
     matrixtest* mt = new matrixtest();
+        int n = 500;
 
-        long Duration = mt->EigenMethod(500);
+        long eigenResult = mt->EigenMethod(n);
+        long opencvResult = mt->OpenCVMethod(n);
+        long dlibResult = mt-> DilbMethod(n);
         std::stringstream ss;
-        ss << Duration;
+        ss << "Eigen: " << eigenResult << "ms OpenCV: " << opencvResult << "ms Dlib: " << dlibResult <<"ms";
 
         const std::string tmp = ss.str();
         const char *cstr = tmp.c_str();

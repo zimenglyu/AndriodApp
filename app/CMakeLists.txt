@@ -1,3 +1,6 @@
+set(pathToProject C:/Users/Zimeng/AndroidStudioProjects/MyApplication)
+set(pathToOpenCv C:/Users/Zimeng/cpplibs/libraries/OpenCV-android-sdk)
+set(pathToDlib C:/Users/Zimeng/cpplibs/libraries/DlibFolder)
 # For more information about using CMake with Android Studio, read the
 # documentation: https://d.android.com/studio/projects/add-native-code.html
 
@@ -5,14 +8,26 @@
 
 cmake_minimum_required(VERSION 3.4.1)
 
+set(CMAKE_VERBOSE_MAKEFILE on)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+
+include_directories(${pathToOpenCv}/sdk/native/jni/include)
+
+include_directories(${pathToDlib})
+
 include_directories(C:/Users/Zimeng/cpplibs/libraries/Eigen)
 
 include_directories(src/main/cpp/includes)
 
+#include_directories(C:/Users/Zimeng/cpplibs/libraries/dlib)
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
 # You can define multiple libraries, and CMake builds them for you.
 # Gradle automatically packages shared libraries with your APK.
+
+add_library( lib_opencv SHARED IMPORTED )
+
+set_target_properties(lib_opencv PROPERTIES IMPORTED_LOCATION ${pathToProject}/app/src/main/jniLibs/${ANDROID_ABI}/libopencv_java3.so)
 
 add_library( # Sets the name of the library.
              native-lib
@@ -44,6 +59,12 @@ find_library( # Sets the name of the path variable.
 target_link_libraries( # Specifies the target library.
                        native-lib
 
+                        # NOTE: this is important to get opencv to compile
+                        lib_opencv
+
                        # Links the target library to the log library
                        # included in the NDK.
                        ${log-lib} )
+#target_link_libraries(native-lib
+#                        dlib::dlib
+#                        log)
