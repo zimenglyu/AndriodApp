@@ -3,6 +3,8 @@ package com.example.zimeng.myapplication;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.content.res.Resources;
+import 	java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,7 +21,18 @@ public class MainActivity extends AppCompatActivity {
 
         // Example of a call to a native method
         TextView tv = (TextView) findViewById(R.id.sample_text);
-        tv.setText(stringFromJNI());
+        //tv.setText(stringFromJNI());
+
+        try {
+
+
+            Resources res = getResources();
+            InputStream in_s = res.openRawResource(R.raw.linear);
+
+            byte[] b = new byte[in_s.available()];
+            in_s.read(b);
+        }catch (Exception ex) {}
+
     }
 
     /**
