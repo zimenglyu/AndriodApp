@@ -5,6 +5,9 @@ android {
     buildToolsVersion "28.0.3"
 
     defaultConfig {
+        ndk {
+            abiFilters 'armeabi-v7a'
+        }
         applicationId "com.example.zimeng.myapplication"
         minSdkVersion 15
         targetSdkVersion 28
@@ -26,6 +29,12 @@ android {
     externalNativeBuild {
         cmake {
             path "CMakeLists.txt"
+        }
+    }
+    sourceSets {
+        main {
+            // let gradle pack the shared library into apk
+            jni.srcDirs = ["libs"]
         }
     }
 }
